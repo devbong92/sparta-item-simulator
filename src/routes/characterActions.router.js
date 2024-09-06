@@ -283,7 +283,7 @@ router.post('/dress/:characterId/:invenId', authMiddleware, async (req, res, nex
 /**
  * 아이템 탈착
  */
-router.post('/unDress/:characterId/:invenId', authMiddleware, async (req, res, next) => {
+router.post('/undress/:characterId/:invenId', authMiddleware, async (req, res, next) => {
   const { user } = req;
   const { invenId, characterId } = req.params;
 
