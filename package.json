@@ -4,6 +4,9 @@
   "main": "index.js",
   "license": "MIT",
   "type": "module",
+  "scripts": {
+    "dev": "npx nodemon ./src/app.js"
+  },
   "dependencies": {
     "@prisma/client": "^5.19.1",
     "bcrypt": "^5.1.1",
