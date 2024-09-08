@@ -12,7 +12,7 @@ router.patch('/work/:characterId', authMiddleware, async (req, res, next) => {
   try {
     const { user } = req;
     const { characterId } = req.params;
-    const workMoney = 10000;
+    const workMoney = 100;
 
     const character = await prisma.characters.findFirst({
       where: {
@@ -84,7 +84,9 @@ router.post('/buy/:characterId/:itemCode', authMiddleware, async (req, res, next
       },
     );
 
-    return res.status(201).json({ message: `[${item.itemName}]를 구매하였습니다.` });
+    return res
+      .status(201)
+      .json({ message: `[${item.itemName}]를 [${item.itemPrice}]에 구매하였습니다.` });
   } catch (err) {
     next(err);
   }
@@ -230,7 +232,9 @@ router.post('/dress/:characterId/:invenId', authMiddleware, async (req, res, nex
     });
     if (!myInven) return res.status(404).json({ message: '아이템 정보가 존재하지 않습니다.' });
     else if (myInven.wearYn === 'Y')
-      return res.status(400).json({ message: '이미 착용하고 있는 아이템입니다.' });
+      return res
+        .status(400)
+        .json({ message: `[${myInven.item.itemName}]은 이미 착용하고 있는 아이템입니다. ` });
 
     console.log('myInven.item => ', myInven.item);
 
@@ -274,7 +278,9 @@ router.post('/dress/:characterId/:invenId', authMiddleware, async (req, res, nex
       },
     );
 
-    return res.status(200).json({ message: '착용완료' });
+    return res.status(200).json({
+      message: `[${myCharacter.characterName}]가 [${myInven.item.itemName}]를 착용하였습니다.`,
+    });
   } catch (err) {
     next(err);
   }
@@ -320,7 +326,9 @@ router.post('/undress/:characterId/:invenId', authMiddleware, async (req, res, n
       },
     });
     if (!myEquip || myInven.wearYn === 'N')
-      return res.status(404).json({ message: '이미 착용 해제된 아이템입니다.' });
+      return res
+        .status(404)
+        .json({ message: `[${myInven.item.itemName}]은 이미 착용 해제된 아이템입니다.` });
 
     const myItemStat = myInven.item.itemStat;
 
@@ -361,7 +369,9 @@ router.post('/undress/:characterId/:invenId', authMiddleware, async (req, res, n
       },
     );
 
-    return res.status(200).json({ message: `[${myInven.item.itemName}]가 착용 해제되었습니다.` });
+    return res.status(200).json({
+      message: `[${myCharacter.characterName}]가 [${myInven.item.itemName}]를 착용 해제되었습니다.`,
+    });
   } catch (err) {
     next(err);
   }
