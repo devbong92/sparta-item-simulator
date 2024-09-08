@@ -52,18 +52,20 @@ router.post('/sign-in', async (req, res, next) => {
     return res.status(401).json({ message: '비밀번호가 일치하지 않습니다.' });
   }
 
-  const token = jwt.sign(
+  const accessToken = jwt.sign(
     {
       userId: user.userId,
     },
-    process.env.SESSION_SECRET_KEY,
+    process.env.ACCESS_TOKEN_SECRET_KEY,
+    { expiresIn: '1d' },
   );
 
-  console.log('token ===>>> ', token);
-  //   req.session.userId = token;
-  req.session.authorization = token;
+  console.log('accessToken ===>>> ', accessToken);
 
-  return res.status(200).json({ message: '로그인에 성공하였습니다.', token: token });
+  return res.status(200).json({
+    message: '로그인에 성공하였습니다.',
+    accessToken: accessToken,
+  });
 });
 
 export default router;
