@@ -7,12 +7,20 @@ import errorHandlingMiddleware from './middlewares/error-handling.middleware.js'
 import expressSession from 'express-session';
 import expressMySQLSession from 'express-mysql-session';
 import dotenv from 'dotenv';
+import swaggerUi from 'swagger-ui-express';
+import swaggerFile from './swagger/swagger-output.json' assert { type: 'json' };
+import authPageMiddleware from './middlewares/authPage.middleware.js';
+import cookieParser from 'cookie-parser';
+import pagesRouter from './routes/pages.router.js';
 
 // .env => process.env
 dotenv.config();
 
 const app = express();
 const PORT = 3020;
+
+// swagger-autogen
+app.use('/swagger', swaggerUi.serve, swaggerUi.setup(swaggerFile));
 
 // MySQLStore를 Express-Session을 이용해 생성합니다.
 const MySQLStore = expressMySQLSession(expressSession);
@@ -32,7 +40,9 @@ app.use(express.static('assets'));
 
 // api setting
 app.use(express.json());
+app.use(cookieParser());
 
+// session
 app.use(
   expressSession({
     secret: process.env.SESSION_SECRET_KEY,
@@ -48,27 +58,51 @@ app.use(
 // api
 app.use('/api', [UserRouter, ItemRouter, CharacterRouter, CharacterActionRouter]);
 
-app.get('/', (req, res, next) => {
-  // session chcek
-  res.redirect('/login');
+app.use(errorHandlingMiddleware);
+
+/**
+ * 로그인 페이지
+ */
+app.get('/login', async (req, res, next) => {
+  if (req.cookies.accessToken) {
+    res.clearCookie('accessToken');
+  }
+  res.render('login', {});
 });
+
+/**
+ * 루트 페이지
+ */
+app.get('/', authPageMiddleware, async (req, res, next) => {
+  // session chcek
+
+  const previousUrl = req.headers.referer || req.headers.referrer; // 이전 URL
+  if (!previousUrl) return res.redirect('/login');
+
+  const { user } = req;
+  if (!user) return res.status(401).json({ url: '/login' });
+  return res.status(200).json({ url: '/index' });
+});
+
+// 페이지 이동 라우터
+app.use('/', [pagesRouter]);
 
 /**
  * 페이지 이동
  */
-app.get('/:pageName', (req, res, next) => {
+app.get('/:pageName', authPageMiddleware, (req, res, next) => {
   const { pageName } = req.params;
+  const { user } = req;
 
   if (pageName.toLowerCase() === 'login') {
     res.render('login', {});
   } else {
     res.render('template/view', {
       pageName: `../${pageName}`,
+      user: user,
     });
   }
 });
-
-app.use(errorHandlingMiddleware);
 
 app.listen(PORT, () => {
   console.log(PORT, '포트로 서버가 열렸어요!');

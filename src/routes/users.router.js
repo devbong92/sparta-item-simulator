@@ -2,16 +2,39 @@ import express from 'express';
 import { prisma } from '../utils/prisma/index.js';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
+import joi from 'joi';
 
 const router = express.Router();
 
 /**
- * 회원가입 API
+ * 회원가입
  */
 router.post('/sign-up', async (req, res, next) => {
-  const { email, password, name } = req.body;
+  /**
+   * #swagger.tags = ['회원가입']
+   * #swagger.description = '회원가입 - 유저'
+   * #swagger.requestBody = {
+        required: true,
+        content: {
+            "application/json": {
+                schema: {
+                    $ref: "#/components/schemas/signUp"
+                }  
+            }
+        }
+    } 
+   */
 
   try {
+    const signupSchema = joi.object({
+      email: joi.string().email().required(),
+      password: joi.string().required(),
+      name: joi.string().min(2).max(5).required(),
+    });
+
+    const validation = await signupSchema.validateAsync(req.body);
+    const { email, password, name } = validation;
+
     const isExistUser = await prisma.users.findFirst({
       where: {
         email,
@@ -39,9 +62,23 @@ router.post('/sign-up', async (req, res, next) => {
 });
 
 /**
- * 로그인 API
+ * 로그인
  */
 router.post('/sign-in', async (req, res, next) => {
+  /**
+   * #swagger.tags = ['로그인']
+   * #swagger.description = '로그인 - 유저'
+   * #swagger.requestBody = {
+        required: true,
+        content: {
+            "application/json": {
+                schema: {
+                    $ref: "#/components/schemas/signIn"
+                }  
+            }
+        }
+    } 
+   */
   const { email, password } = req.body;
 
   const user = await prisma.users.findFirst({ where: { email } });
@@ -60,7 +97,8 @@ router.post('/sign-in', async (req, res, next) => {
     { expiresIn: '1d' },
   );
 
-  console.log('accessToken ===>>> ', accessToken);
+  // 로그인 페이지용
+  res.cookie('accessToken', 'Bearer ' + accessToken);
 
   return res.status(200).json({
     message: '로그인에 성공하였습니다.',
