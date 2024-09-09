@@ -9,8 +9,6 @@ const router = express.Router();
  * 캐릭터 생성 API
  */
 router.post('/character', authMiddleware, async (req, res, next) => {
-  console.log('   header => ', req.headers);
-
   const { user } = req;
   const { characterName } = req.body;
 

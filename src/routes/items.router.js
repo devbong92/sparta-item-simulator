@@ -86,7 +86,7 @@ router.patch('/items/:itemCode', async (req, res, next) => {
   let item = await prisma.items.findFirst({
     where: { itemCode: +itemCode },
   });
-  if (!item) return res.status(404).json({ message: '아이템 정보가 존재하지 않습니다.' });
+  if (!item) return res.status(400).json({ message: '아이템 정보가 존재하지 않습니다.' });
 
   await prisma.$transaction(
     async (tx) => {

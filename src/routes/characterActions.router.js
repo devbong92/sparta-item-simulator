@@ -58,7 +58,7 @@ router.post('/buy/:characterId/:itemCode', authMiddleware, async (req, res, next
     const item = await prisma.items.findFirst({
       where: { itemCode: +itemCode },
     });
-    if (!item) return res.status(404).json({ message: '아이템 정보가 존재하지 않습니다.' });
+    if (!item) return res.status(400).json({ message: '아이템 정보가 존재하지 않습니다.' });
 
     await prisma.$transaction(
       async (tx) => {
@@ -121,7 +121,7 @@ router.post('/sell/:characterId/:invenId', authMiddleware, async (req, res, next
       },
       where: { invenId: +invenId },
     });
-    if (!myInven) return res.status(404).json({ message: '아이템 정보가 존재하지 않습니다.' });
+    if (!myInven) return res.status(400).json({ message: '아이템 정보가 존재하지 않습니다.' });
 
     // 판매대금은 원가에 60%
     const cellPrice = Math.floor(myInven.item.itemPrice * 0.6);
@@ -230,10 +230,10 @@ router.post('/dress/:characterId/:invenId', authMiddleware, async (req, res, nex
       },
       where: { invenId: +invenId },
     });
-    if (!myInven) return res.status(404).json({ message: '아이템 정보가 존재하지 않습니다.' });
+    if (!myInven) return res.status(400).json({ message: '아이템 정보가 존재하지 않습니다.' });
     else if (myInven.wearYn === 'Y')
       return res
-        .status(400)
+        .status(409)
         .json({ message: `[${myInven.item.itemName}]은 이미 착용하고 있는 아이템입니다. ` });
 
     console.log('myInven.item => ', myInven.item);
@@ -317,7 +317,7 @@ router.post('/undress/:characterId/:invenId', authMiddleware, async (req, res, n
       },
       where: { invenId: +invenId },
     });
-    if (!myInven) return res.status(404).json({ message: '아이템 정보가 존재하지 않습니다.' });
+    if (!myInven) return res.status(400).json({ message: '아이템 정보가 존재하지 않습니다.' });
 
     const myEquip = await prisma.equipments.findFirst({
       where: {
@@ -327,7 +327,7 @@ router.post('/undress/:characterId/:invenId', authMiddleware, async (req, res, n
     });
     if (!myEquip || myInven.wearYn === 'N')
       return res
-        .status(404)
+        .status(409)
         .json({ message: `[${myInven.item.itemName}]은 이미 착용 해제된 아이템입니다.` });
 
     const myItemStat = myInven.item.itemStat;
@@ -378,7 +378,7 @@ router.post('/undress/:characterId/:invenId', authMiddleware, async (req, res, n
 });
 
 /**
- * 캐릭터가 보유한 인벤토리 내 아이템 목록 조회
+ * 캐릭터 장비 목록 조회
  */
 router.get('/dressed/:characterId', authMiddleware, async (req, res, next) => {
   //
