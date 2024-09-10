@@ -13,10 +13,40 @@ signInButton.addEventListener('click', () => {
 ///
 
 document.getElementById('signIn_btn').addEventListener('click', () => {
-  alert('signIn_btn');
+  const pass = document.getElementById('signInPass').value;
+  const email = document.getElementById('signInEmail').value;
+
+  if (!pass || !email) {
+    alert('값을 입력하세요.');
+    return false;
+  }
+
+  let data = {
+    email: email,
+    password: pass,
+  };
+
+  fetch('/api/sign-in', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(data),
+  })
+    .then(async (response) => {
+      const res = await response.json();
+      alert(res.message);
+      if (response.ok) {
+        location.href = '/index';
+      }
+    })
+    .catch((err) => {
+      console.log('err => ', err.message);
+      alert('오류가 발생했습니다.');
+    });
 });
 
-document.getElementById('signUp_btn').addEventListener('click', async () => {
+document.getElementById('signUp_btn').addEventListener('click', () => {
   // 추후 암호화 처리 RSA?
   const pass = document.getElementById('signUpPass').value;
 
@@ -26,21 +56,20 @@ document.getElementById('signUp_btn').addEventListener('click', async () => {
     password: pass,
   };
 
-  const res = await fetch('/api/sign-up', {
-    method: 'POST', // 또는 'PUT'
+  fetch('/api/sign-up', {
+    method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify(data),
   })
-    .then((res) => {
-      return res.json();
+    .then(async (response) => {
+      const res = await response.json();
+      alert(res.message);
+      if (response.ok) signInButton.click();
     })
     .catch((err) => {
-      console.log('err => ', err);
+      console.log('err => ', err.message);
       alert('오류가 발생했습니다.');
     });
-
-  alert(res.message);
-  location.href = '/index';
 });

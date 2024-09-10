@@ -1,0 +1,98 @@
+<div class="container-fluid">
+    <div class="card o-hidden border-0 shadow-lg my-5">
+        <div class="card-body p-0">
+            <!-- Nested Row within Card Body -->
+            <div class="row">
+                <div class="col-lg-5 d-none d-lg-block bg-register-image" style="text-align: center;">
+                    <img style=" width: 300px; object-fit: cover;" src="/img/laptop_2.png">
+                </div>
+                <div class="col-lg-7">
+                    <div class="p-5">
+                        <div class="text-center">
+                            <h1 class="h4 text-gray-900 mb-4">Create a New Item!</h1>
+                        </div>
+                        <form class="user">
+                            <div class="form-group">
+                                <input type="text" class="form-control form-control-user" id="itemName"
+                                    placeholder="Item Name">
+                            </div>
+                            <div class="form-group">
+                                <select id="itemType" aria-controls="dataTable"
+                                    class="custom-select custom-select-sm form-control form-control-sm">
+                                    <option value="WEAPON">WEAPON</option>
+                                    <option value="ARMOR">ARMOR</option>
+                                    <option value="ACCESSORY">ACCESSORY</option>
+                                </select>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-sm-6 mb-3 mb-sm-0">
+                                    <input type="number" class="form-control form-control-user" id="power"
+                                        placeholder="power">
+                                </div>
+                                <div class="col-sm-6">
+                                    <input type="number" class="form-control form-control-user" id="health"
+                                        placeholder="health">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <input type="text" class="form-control form-control-user" id="itemPrice"
+                                    placeholder="Item Price">
+                            </div>
+                            <a href="#" id="btnAddItem" class="btn btn-primary btn-user btn-block">
+                                Create Item
+                            </a>
+                            <hr>
+                        </form>
+                        <hr>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    function getCookie(name) {
+        let matches = document.cookie.match(new RegExp(
+            "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
+        ));
+        return matches ? decodeURIComponent(matches[1]) : undefined;
+    }
+
+    // 생성 버튼 
+    document.getElementById('btnAddItem').addEventListener('click', () => {
+
+
+        const data = {
+            "itemName": document.getElementById('itemName').value,
+            "itemType": document.getElementById('itemType').value,
+            "itemStat": {
+                "power": document.getElementById('power').value,
+                "health": document.getElementById('health').value
+            },
+            "itemPrice": document.getElementById('itemPrice').value
+        }
+
+        // 캐릭터 생성 API
+        fetch('/api/items', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                authorization: getCookie('accessToken'),
+            },
+            body: JSON.stringify(data),
+        })
+            .then(async (response) => {
+                if (response.status === 201) {
+                    const res = await response.json();
+                    alert(`[${res.data.itemName}]이 생성되었습니다.`);
+                }
+            })
+            .catch((err) => {
+                console.log('err => ', err.message);
+                alert('오류가 발생했습니다.');
+            });
+    });
+
+</script>

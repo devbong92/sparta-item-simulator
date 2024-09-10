@@ -44,7 +44,7 @@ model Items {
 }
 
 model Characters {
-  characterId Int @id @default(autoincrement()) @map("itemCode")
+  characterId Int @id @default(autoincrement()) @map("characterId")
   userId Int @map("userId")
   characterName String @unique @map("characterName")
   health Int @default(500) @map("health")

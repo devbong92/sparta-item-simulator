@@ -76,12 +76,13 @@ app.get('/login', async (req, res, next) => {
 app.get('/', authPageMiddleware, async (req, res, next) => {
   // session chcek
 
-  const previousUrl = req.headers.referer || req.headers.referrer; // 이전 URL
-  if (!previousUrl) return res.redirect('/login');
+  // const previousUrl = req.headers.referer || req.headers.referrer; // 이전 URL
+  // if (!previousUrl) return res.redirect('/login');
 
   const { user } = req;
-  if (!user) return res.status(401).json({ url: '/login' });
-  return res.status(200).json({ url: '/index' });
+  if (!user) return res.redirect('/login');
+
+  return res.redirect('/index');
 });
 
 // 페이지 이동 라우터

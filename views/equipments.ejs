@@ -2,8 +2,8 @@
 <div class="container-fluid">
 
     <!-- Page Heading -->
-    <h1 class="h3 mb-2 text-gray-800">아이템 목록 조회</h1>
-    <p class="mb-4">모든 아이템을 조회할 수 있습니다.</p>
+    <h1 class="h3 mb-2 text-gray-800">장비 목록</h1>
+    <p class="mb-4">착용하고 있는 아이템을 조회할 수 있습니다.</p>
 
     <!-- DataTales Example -->
     <div class="card shadow mb-4">
@@ -17,7 +17,6 @@
                         <tr>
                             <th>아이템 코드</th>
                             <th>아이템 이름</th>
-                            <th>아이템 타입</th>
                             <th>아이템 옵션</th>
                             <th>금액</th>
                             <th>등록일시</th>
@@ -28,8 +27,7 @@
                         <tr>
                             <th>아이템 코드</th>
                             <th>아이템 이름</th>
-                            <th>아이템 타입</th>
-                            <th>아이템 등급</th>
+                            <th>아이템 옵션</th>
                             <th>금액</th>
                             <th>등록일시</th>
                             <th>수정일시</th>
@@ -39,19 +37,16 @@
                         <% for(let i=0; i < list.length; i++){ %>
                             <tr>
                                 <td>
-                                    <%= list[i].itemCode %>
+                                    <%= list[i].inven.item.itemCode %>
                                 </td>
                                 <td>
-                                    <%= list[i].itemName %>
+                                    <%= list[i].inven.item.itemName %>
                                 </td>
                                 <td>
-                                    <%= list[i].itemType %>
+                                    <%= JSON.stringify(list[i].inven.item.itemStat) %>
                                 </td>
                                 <td>
-                                    <%= JSON.stringify(list[i].itemStat) %>
-                                </td>
-                                <td>
-                                    <%= list[i].itemPrice %>
+                                    <%= list[i].inven.item.itemPrice %>
                                 </td>
                                 <td>
                                     <%= new Date(list[i].createdAt).toISOString() %>
