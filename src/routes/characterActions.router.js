@@ -6,9 +6,17 @@ import authMiddleware from '../middlewares/auth.middleware.js';
 const router = express.Router();
 
 /**
- * 게임머니 증가
+ * 게임머니 100 증가 API
  */
 router.patch('/work/:characterId', authMiddleware, async (req, res, next) => {
+  /**
+   * #swagger.tags = ['게임머니 100 증가 API']
+   * #swagger.description = '캐릭터의 게임머니 100을 증가시킨다.'
+   * #swagger.security = [{
+        "Bearer Token": []
+    }] 
+   */
+
   try {
     const { user } = req;
     const { characterId } = req.params;
@@ -43,10 +51,18 @@ router.patch('/work/:characterId', authMiddleware, async (req, res, next) => {
  * 아이템 구입 API
  */
 router.post('/buy/:characterId/:itemCode', authMiddleware, async (req, res, next) => {
-  const { user } = req;
-  const { itemCode, characterId } = req.params;
+  /**
+   * #swagger.tags = ['아이템 구입 API']
+   * #swagger.description = '아이템을 구입하여 캐릭터 인벤토리에 추가한다.'
+   * #swagger.security = [{
+        "Bearer Token": []
+    }] 
+   */
 
   try {
+    const { user } = req;
+    const { itemCode, characterId } = req.params;
+
     const character = await prisma.characters.findFirst({
       where: {
         characterId: +characterId,
@@ -96,10 +112,17 @@ router.post('/buy/:characterId/:itemCode', authMiddleware, async (req, res, next
  * 아이템 판매 API
  */
 router.post('/sell/:characterId/:invenId', authMiddleware, async (req, res, next) => {
-  const { user } = req;
-  const { invenId, characterId } = req.params;
-
+  /**
+   * #swagger.tags = ['아이템 판매 API']
+   * #swagger.description = '캐릭터 인벤토리의 아이템을 판매한다. (판매대금 60%)'
+   * #swagger.security = [{
+        "Bearer Token": []
+    }] 
+   */
   try {
+    const { user } = req;
+    const { invenId, characterId } = req.params;
+
     const character = await prisma.characters.findFirst({
       where: {
         characterId: +characterId,
@@ -158,13 +181,20 @@ router.post('/sell/:characterId/:invenId', authMiddleware, async (req, res, next
 });
 
 /**
- * 인벤토리 목록 조회
+ * 인벤토리 목록 조회 API
  */
 router.get('/:characterId/inventory', authMiddleware, async (req, res, next) => {
-  const { user } = req;
-  const { characterId } = req.params;
-
+  /**
+   * #swagger.tags = ['인벤토리 목록 조회 API']
+   * #swagger.description = '캐릭터 인벤토리 목록을 조회한다.'
+   * #swagger.security = [{
+        "Bearer Token": []
+    }] 
+   */
   try {
+    const { user } = req;
+    const { characterId } = req.params;
+
     const character = await prisma.characters.findFirst({
       where: {
         characterId: +characterId,
@@ -200,13 +230,20 @@ router.get('/:characterId/inventory', authMiddleware, async (req, res, next) => 
 });
 
 /**
- * 아이템 장착
+ * 아이템 장착 API
  */
 router.post('/dress/:characterId/:invenId', authMiddleware, async (req, res, next) => {
-  const { user } = req;
-  const { invenId, characterId } = req.params;
-
+  /**
+   * #swagger.tags = ['아이템 장착 API']
+   * #swagger.description = '캐릭터 인벤토리에 있는 아이템을 장착한다.'
+   * #swagger.security = [{
+        "Bearer Token": []
+    }] 
+   */
   try {
+    const { user } = req;
+    const { invenId, characterId } = req.params;
+
     const myCharacter = await prisma.characters.findFirst({
       where: {
         characterId: +characterId,
@@ -287,13 +324,20 @@ router.post('/dress/:characterId/:invenId', authMiddleware, async (req, res, nex
 });
 
 /**
- * 아이템 탈착
+ * 아이템 탈착 API
  */
 router.post('/undress/:characterId/:invenId', authMiddleware, async (req, res, next) => {
-  const { user } = req;
-  const { invenId, characterId } = req.params;
-
+  /**
+   * #swagger.tags = ['아이템 탈착 API']
+   * #swagger.description = '캐릭터의 장비 아이템을 탈착한다.'
+   * #swagger.security = [{
+        "Bearer Token": []
+    }] 
+   */
   try {
+    const { user } = req;
+    const { invenId, characterId } = req.params;
+
     const myCharacter = await prisma.characters.findFirst({
       where: {
         characterId: +characterId,
@@ -378,14 +422,21 @@ router.post('/undress/:characterId/:invenId', authMiddleware, async (req, res, n
 });
 
 /**
- * 캐릭터 장비 목록 조회
+ * 캐릭터 장비 목록 조회 API
  */
 router.get('/dressed/:characterId', authMiddleware, async (req, res, next) => {
-  //
-  const { user } = req;
-  const { characterId } = req.params;
+  /**
+   * #swagger.tags = ['캐릭터 장비 목록 조회 API']
+   * #swagger.description = '캐릭터의 장비 아이템 목록을 조회한다.'
+   * #swagger.security = [{
+        "Bearer Token": []
+    }] 
+   */
 
   try {
+    const { user } = req;
+    const { characterId } = req.params;
+
     const myCharacter = await prisma.characters.findFirst({
       where: {
         characterId: +characterId,

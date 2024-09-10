@@ -7,11 +7,11 @@ import joi from 'joi';
 const router = express.Router();
 
 /**
- * 회원가입
+ * 회원가입 API
  */
 router.post('/sign-up', async (req, res, next) => {
   /**
-   * #swagger.tags = ['회원가입']
+   * #swagger.tags = ['회원가입 API']
    * #swagger.description = '회원가입 - 유저'
    * #swagger.requestBody = {
         required: true,
@@ -22,14 +22,34 @@ router.post('/sign-up', async (req, res, next) => {
                 }  
             }
         }
-    } 
+      } 
+    
    */
 
   try {
+    // 영어 소문자 + 숫자
+    const emailRegExp = /^[0-9a-z]*@[0-9a-z]([-_.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/;
+    // /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/;
+
     const signupSchema = joi.object({
-      email: joi.string().email().required(),
-      password: joi.string().required(),
-      name: joi.string().min(2).max(5).required(),
+      email: joi.string().regex(emailRegExp).required().messages({
+        'string.base': 'Email은 문자열이어야 합니다.',
+        'any.required': 'Email을 입력해주세요.',
+        'string.pattern.base': 'Email이 형식에 맞지 않습니다.[영어 소문자 + 숫자 조합]',
+      }),
+      password: joi.string().pattern(new RegExp('^[a-zA-Z0-9]{3,30}$')).min(6).required().messages({
+        'string.base': '비밀번호는 문자열이어야 합니다.',
+        'string.min': `비밀번호의 길이는 최소 {#limit}자 이상입니다.`,
+        'any.required': '비밀번호를 입력해주세요.',
+      }),
+      passwordCheck: joi.any().valid(joi.ref('password')).required().messages({
+        'any.only': '비밀번호와 일치해야합니다.',
+      }),
+      name: joi.string().min(2).max(10).required().messages({
+        'string.base': '이름은 문자열이어야 합니다.',
+        'string.min': `이름의 길이는 최소 {#limit}자 이상입니다.`,
+        'string.max': `이름의 길이는 최대 {#limit}자 이하입니다.`,
+      }),
     });
 
     const validation = await signupSchema.validateAsync(req.body);
@@ -62,11 +82,11 @@ router.post('/sign-up', async (req, res, next) => {
 });
 
 /**
- * 로그인
+ * 로그인 API
  */
 router.post('/sign-in', async (req, res, next) => {
   /**
-   * #swagger.tags = ['로그인']
+   * #swagger.tags = ['로그인 API']
    * #swagger.description = '로그인 - 유저'
    * #swagger.requestBody = {
         required: true,
@@ -79,6 +99,7 @@ router.post('/sign-in', async (req, res, next) => {
         }
     } 
    */
+
   const { email, password } = req.body;
 
   const user = await prisma.users.findFirst({ where: { email } });

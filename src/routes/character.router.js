@@ -9,10 +9,37 @@ const router = express.Router();
  * 캐릭터 생성 API
  */
 router.post('/character', authMiddleware, async (req, res, next) => {
-  const { user } = req;
-  const { characterName } = req.body;
+  /**
+   * #swagger.tags = ['캐릭터 생성 API']
+   * #swagger.description = '캐릭터를 생성한다.'
+   * #swagger.security = [{
+        "Bearer Token": []
+    }] 
+   * #swagger.requestBody = {
+        required: true,
+        content: {
+            "application/json": {
+                schema: {
+                    $ref: "#/components/schemas/addCharacterReq"
+                }  
+            }
+        }
+      }
+   */
 
   try {
+    const joiSchema = joi.object({
+      characterName: joi.string().required().messages({
+        'string.base': '캐릭터명은 문자열이어야 합니다.',
+        'any.required': '캐릭터명을 입력해주세요.',
+      }),
+    });
+
+    const validation = await joiSchema.validateAsync(req.body);
+
+    const { user } = req;
+    const { characterName } = validation;
+
     const isExistCharacter = await prisma.characters.findFirst({
       where: {
         characterName: characterName,
@@ -36,13 +63,20 @@ router.post('/character', authMiddleware, async (req, res, next) => {
 });
 
 /**
- * 캐릭터 삭제
+ * 캐릭터 삭제 API
  */
 router.delete('/character/:characterId', authMiddleware, async (req, res, next) => {
-  const { user } = req;
-  const { characterId } = req.params;
-
+  /**
+   * #swagger.tags = ['캐릭터 삭제 API']
+   * #swagger.description = '캐릭터를 삭제한다.'
+   * #swagger.security = [{
+        "Bearer Token": []
+    }] 
+   */
   try {
+    const { user } = req;
+    const { characterId } = req.params;
+
     const character = await prisma.characters.findFirst({
       where: {
         characterId: +characterId,
@@ -69,13 +103,21 @@ router.delete('/character/:characterId', authMiddleware, async (req, res, next) 
 });
 
 /**
- * 캐릭터 상세 조회
+ * 캐릭터 상세 조회 API
  */
 router.get('/character/:characterId', async (req, res, next) => {
-  const { characterId } = req.params;
-  let userId;
+  /**
+   * #swagger.tags = ['캐릭터 상세 조회 API']
+   * #swagger.description = '특정 캐릭터를 조회한다.'
+   * #swagger.security = [{
+        "Bearer Token": []
+    }] 
+   */
 
   try {
+    const { characterId } = req.params;
+    let userId;
+
     userId = Utils.verify(req.headers.authorization);
   } catch (err) {
     userId = null;
@@ -112,9 +154,16 @@ router.get('/character/:characterId', async (req, res, next) => {
 });
 
 /**
- * 캐릭터 목록 조회
+ * 캐릭터 목록 조회 API
  */
 router.get('/character', authMiddleware, async (req, res, next) => {
+  /**
+   * #swagger.tags = ['캐릭터 목록 조회 API']
+   * #swagger.description = '유저의 캐릭터 목록을 조회한다.'
+   * #swagger.security = [{
+        "Bearer Token": []
+    }] 
+   */
   try {
     const { user } = req;
 

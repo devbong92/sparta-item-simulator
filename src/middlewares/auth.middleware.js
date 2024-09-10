@@ -1,6 +1,13 @@
 import { prisma } from '../utils/prisma/index.js';
 import Utils from '../utils/Utils.js';
 
+/**
+ * 인증 핸들러
+ * @param {*} req
+ * @param {*} res
+ * @param {*} next
+ * @returns
+ */
 export default async function (req, res, next) {
   try {
     const userId = Utils.verify(req.headers.authorization);

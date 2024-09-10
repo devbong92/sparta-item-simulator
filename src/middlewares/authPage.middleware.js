@@ -1,6 +1,13 @@
 import { prisma } from '../utils/prisma/index.js';
 import Utils from '../utils/Utils.js';
 
+/**
+ * 인증 핸들러 - 웹 페이지용
+ * @param {*} req
+ * @param {*} res
+ * @param {*} next
+ * @returns
+ */
 export default async function (req, res, next) {
   try {
     // const previousUrl = req.headers.referer || req.headers.referrer; // 이전 URL

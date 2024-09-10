@@ -2,36 +2,43 @@
 
 ## 사용법
 
-- 실행 : npm run start
-- API-Docs : ${domain}/api-docs
+- 최초 실행 시
+
+  - yarn 설치(global) : sudo npm install -g yarn
+  - 의존성 및 패키지 설치 : yarn
+
+- 실행 : yarn run start
+- Swagger : yarn run swagger
 - Site : ${domain}/
 
 ## 필수 기능
 
-- [ ] 회원가입 API
-- [ ] 로그인 API
-- [ ] 캐릭터 생성 API (JWT 인증만 가능)
-- [ ] 캐릭터 삭제 API (JWT 인증만 가능)
-- [ ] 캐릭터 목록 조회 API (JWT 인증만 가능)
-- [ ] 캐릭터 상세 조회 API (JWT으로 기능 구분)
-- [ ] 아이템 생성 API
-- [ ] 아이템 수정 API
-- [ ] 아이템 목록 조회 API
-- [ ] 아이템 상세 조회 API
+- [x] 회원가입 API
+- [x] 로그인 API
+- [x] 캐릭터 생성 API (JWT 인증만 가능)
+- [x] 캐릭터 삭제 API (JWT 인증만 가능)
+- [x] 캐릭터 목록 조회 API (JWT 인증만 가능)
+- [x] 캐릭터 상세 조회 API (JWT으로 기능 구분)
+- [x] 아이템 생성 API
+- [x] 아이템 수정 API
+- [x] 아이템 목록 조회 API
+- [x] 아이템 상세 조회 API
 
 ## 도전 기능
 
-- [ ] 게임머니 증가 API (JWT 인증만 가능)
-- [ ] 아이템 구입 API (JWT 인증만 가능)
-- [ ] 아이템 판매 API (JWT 인증만 가능)
-- [ ] 캐릭터가 보유한 인벤토리 내 아이템 목록 조회 API (JWT 인증만 가능)
-- [ ] 캐릭터가 장착한 아이템 목록 조회 API
-- [ ] 아이템 장착 API (JWT 인증만 가능)
-- [ ] 아이템 탈착 API (JWT 인증만 가능)
+- [x] 게임머니 100 증가 API (JWT 인증만 가능)
+- [x] 아이템 구입 API (JWT 인증만 가능)
+- [x] 아이템 판매 API (JWT 인증만 가능)
+- [x] 캐릭터가 보유한 인벤토리 내 아이템 목록 조회 API (JWT 인증만 가능)
+- [x] 캐릭터가 장착한 아이템 목록 조회 API
+- [x] 아이템 장착 API (JWT 인증만 가능)
+- [x] 아이템 탈착 API (JWT 인증만 가능)
 
 ## API 명세서
 
-[API 명세서 링크 ](https://dev-bong92.notion.site/3758f20ae7f04e3993743a97092442c4?v=13d7c277ee8c4f7c8a534e684a4e161b)
+[API 명세서 (Notion) ](https://dev-bong92.notion.site/3758f20ae7f04e3993743a97092442c4?v=13d7c277ee8c4f7c8a534e684a4e161b)
+
+[Swagger-UI](http://vamuzz.shop:3020/swagger)
 
 ## ERD
 
@@ -186,6 +193,6 @@ Q, 아이템 구입 시에 가격을 클라이언트에서 입력하게 하면 �
 
 ---
 
-#### 캐릭터 이미지 : 출처
+#### 캐릭터 이미지 출처
 
-<a href="https://kr.freepik.com/free-vector/hand-drawn-clip-art-people-office-worker-character_23374868.htm#fromView=keyword&page=1&position=3&uuid=adca9d95-7f05-4a0b-8bd7-ea072d02a20b">작가 felicities 출처 Freepik</a>
+- <a href="https://kr.freepik.com/free-vector/hand-drawn-clip-art-people-office-worker-character_23374868.htm#fromView=keyword&page=1&position=3&uuid=adca9d95-7f05-4a0b-8bd7-ea072d02a20b">작가 felicities 출처 Freepik</a>
