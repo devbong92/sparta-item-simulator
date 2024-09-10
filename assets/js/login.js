@@ -49,11 +49,13 @@ document.getElementById('signIn_btn').addEventListener('click', () => {
 document.getElementById('signUp_btn').addEventListener('click', () => {
   // 추후 암호화 처리 RSA?
   const pass = document.getElementById('signUpPass').value;
+  const passCheck = document.getElementById('signUpPassCheck').value;
 
   let data = {
     name: document.getElementById('signUpName').value,
     email: document.getElementById('signUpEmail').value,
     password: pass,
+    passwordCheck: passCheck,
   };
 
   fetch('/api/sign-up', {
