@@ -126,6 +126,10 @@ router.post(
     // 로그인 페이지용
     res.cookie('accessToken', 'Bearer ' + accessToken);
 
+    // 로그인 세션 디비에 쿠키형태로 저장
+    req.session.userId = user.userId;
+    req.session.accessToken = accessToken;
+
     return res.status(200).json({
       message: '로그인에 성공하였습니다.',
       accessToken: accessToken,

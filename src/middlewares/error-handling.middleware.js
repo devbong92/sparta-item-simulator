@@ -28,7 +28,7 @@ export default function (err, req, res, next) {
   ) {
     console.error('[ JWT ERR ]', err.name, err.message);
     return res.status(401).json({
-      message: `jwt 토큰 오류입니다.`,
+      message: `잘못된 토큰입니다.`,
     });
   }
   return res.status(500).json({
