@@ -2,21 +2,25 @@ import express from 'express';
 import { prisma } from '../utils/prisma/index.js';
 import { Prisma } from '@prisma/client';
 import joi from 'joi';
+import asyncHandler from 'express-async-handler';
 
 const router = express.Router();
 
 /**
  * 아이템 목록 조회 API
  */
-router.get('/items', async (req, res, next) => {
-  /**
-   * #swagger.tags = ['아이템 목록 조회 API']
+router.get(
+  '/items',
+  asyncHandler(async (req, res, next) => {
+    /**
+   * #swagger.summary = '아이템 목록 조회 API'
    * #swagger.description = '모든 아이템을 조회한다.'
+   * #swagger.tags = ['Items: 아이템관련'] 
    * #swagger.responses[200] = {
           schema: {$ref: "#/components/schemas/getItems"}  
-      }
+      }  
    */
-  try {
+
     const items = await prisma.items.findMany({
       select: {
         itemCode: true,
@@ -31,51 +35,56 @@ router.get('/items', async (req, res, next) => {
     });
 
     return res.status(200).json({ data: items });
-  } catch (err) {
-    next(err);
-  }
-});
+  }),
+);
 
 /**
  * 아이템 상세 조회 API
  */
-router.get('/items/:itemCode', async (req, res, next) => {
-  /**
-   * #swagger.tags = ['아이템 상세 조회 API']
+router.get(
+  '/items/:itemCode',
+  asyncHandler(async (req, res, next) => {
+    /**
+   * #swagger.summary = '아이템 상세 조회 API'
    * #swagger.description = '특정 아이템을 조회한다.'
+   * #swagger.tags = ['Items: 아이템관련'] 
    * #swagger.responses[200] = {
           schema: {$ref: "#/components/schemas/getItem"}  
       }
    */
-  try {
-    const { itemCode } = req.params;
+    try {
+      const { itemCode } = req.params;
 
-    const items = await prisma.items.findFirst({
-      select: {
-        itemCode: true,
-        itemName: true,
-        itemType: true,
-        itemStat: true,
-        itemPrice: true,
-      },
-      where: {
-        itemCode: +itemCode,
-      },
-    });
+      const items = await prisma.items.findFirst({
+        select: {
+          itemCode: true,
+          itemName: true,
+          itemType: true,
+          itemStat: true,
+          itemPrice: true,
+        },
+        where: {
+          itemCode: +itemCode,
+        },
+      });
 
-    return res.status(200).json({ data: items });
-  } catch (err) {
-    next(err);
-  }
-});
+      return res.status(200).json({ data: items });
+    } catch (err) {
+      next(err);
+    }
+  }),
+);
 
 /**
  * 아이템 생성 API
  */
-router.post('/items', async (req, res, next) => {
-  /**
-   * #swagger.tags = ['아이템 생성 API']
+router.post(
+  '/items',
+  asyncHandler(async (req, res, next) => {
+    /**
+   * #swagger.summary = '아이템 생성 API'
    * #swagger.description = '아이템을 생성한다.'
+   * #swagger.tags = ['Items: 아이템관련'] 
    * #swagger.requestBody = {
         required: true,
         content: {
@@ -88,7 +97,6 @@ router.post('/items', async (req, res, next) => {
       }
    */
 
-  try {
     const joiSchema = joi.object({
       itemName: joi.string().required().messages({
         'string.base': '아이템명은 문자열이어야 합니다.',
@@ -123,18 +131,19 @@ router.post('/items', async (req, res, next) => {
     });
 
     return res.status(201).json({ data: item });
-  } catch (err) {
-    next(err);
-  }
-});
+  }),
+);
 
 /**
  * 아이템 수정 API
  */
-router.patch('/items/:itemCode', async (req, res, next) => {
-  /**
-   * #swagger.tags = ['아이템 생성 API']
-   * #swagger.description = '아이템을 생성한다.'
+router.patch(
+  '/items/:itemCode',
+  asyncHandler(async (req, res, next) => {
+    /**
+   * #swagger.summary = '아이템 수정 API'
+   * #swagger.description = '특정 아이템을 수정한다.'
+   * #swagger.tags = ['Items: 아이템관련'] 
    * #swagger.requestBody = {
         required: true,
         content: {
@@ -147,7 +156,6 @@ router.patch('/items/:itemCode', async (req, res, next) => {
       }
    */
 
-  try {
     const joiSchema = joi.object({
       itemName: joi.string().required().messages({
         'string.base': '아이템명은 문자열이어야 합니다.',
@@ -187,9 +195,7 @@ router.patch('/items/:itemCode', async (req, res, next) => {
     );
 
     return res.status(201).json({ data: item });
-  } catch (err) {
-    next(err);
-  }
-});
+  }),
+);
 
 export default router;

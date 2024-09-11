@@ -17,8 +17,20 @@ export default function (err, req, res, next) {
     return res.status(400).json({
       message: `${err.message}`,
     });
+  } else if (err.message === 'jwt expired' || err.message === 'TokenExpiredError') {
+    return res.status(401).json({
+      message: `만료된 토큰입니다.`,
+    });
+  } else if (
+    err.message === 'invalid token' ||
+    err.message === 'jwt malformed' ||
+    err.message === 'invalid signature'
+  ) {
+    console.error('[ JWT ERR ]', err.name, err.message);
+    return res.status(401).json({
+      message: `jwt 토큰 오류입니다.`,
+    });
   }
-
   return res.status(500).json({
     message: `서버에서 오류가 발생했습니다. `,
   });

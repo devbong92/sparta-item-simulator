@@ -3,7 +3,7 @@ import swaggerAutogen from 'swagger-autogen';
 const doc = {
   info: {
     version: '1.0.0',
-    title: 'Item Simulator',
+    title: 'Item Simulator REST APIs',
     description: 'Chapter 3, 개인과제 - 아이템 시뮬레이터 ',
   },
   servers: [

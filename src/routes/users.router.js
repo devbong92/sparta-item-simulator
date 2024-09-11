@@ -3,17 +3,22 @@ import { prisma } from '../utils/prisma/index.js';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import joi from 'joi';
+import asyncHandler from 'express-async-handler';
 
 const router = express.Router();
 
 /**
  * 회원가입 API
  */
-router.post('/sign-up', async (req, res, next) => {
-  /**
-   * #swagger.tags = ['회원가입 API']
-   * #swagger.description = '회원가입 - 유저'
-   * #swagger.requestBody = {
+router.post(
+  '/sign-up',
+  asyncHandler(async (req, res, next) => {
+    /**
+     * #swagger.summary = '회원가입 API'
+     * #swagger.description = '신규 유저를 추가한다.'
+     * #swagger.tags = ['Users: 회원관련'] 
+     * 
+     * #swagger.requestBody = {
         required: true,
         content: {
             "application/json": {
@@ -26,7 +31,6 @@ router.post('/sign-up', async (req, res, next) => {
     
    */
 
-  try {
     // 영어 소문자 + 숫자
     const emailRegExp = /^[0-9a-z]*@[0-9a-z]([-_.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/;
     // /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/;
@@ -76,18 +80,19 @@ router.post('/sign-up', async (req, res, next) => {
     });
 
     return res.status(201).json({ message: '회원가입이 완료되었습니다.' });
-  } catch (err) {
-    next(err);
-  }
-});
+  }),
+);
 
 /**
  * 로그인 API
  */
-router.post('/sign-in', async (req, res, next) => {
-  /**
-   * #swagger.tags = ['로그인 API']
-   * #swagger.description = '로그인 - 유저'
+router.post(
+  '/sign-in',
+  asyncHandler(async (req, res, next) => {
+    /**
+   * #swagger.summary = '로그인 API'
+   * #swagger.description = '유저 정보를 확인한다.'
+   * #swagger.tags = ['Users: 회원관련'] 
    * #swagger.requestBody = {
         required: true,
         content: {
@@ -100,31 +105,32 @@ router.post('/sign-in', async (req, res, next) => {
     } 
    */
 
-  const { email, password } = req.body;
+    const { email, password } = req.body;
 
-  const user = await prisma.users.findFirst({ where: { email } });
+    const user = await prisma.users.findFirst({ where: { email } });
 
-  if (!user) {
-    return res.status(401).json({ message: '잘못된 계정 정보 입니다.' });
-  } else if (!(await bcrypt.compare(password, user.password))) {
-    return res.status(401).json({ message: '비밀번호가 일치하지 않습니다.' });
-  }
+    if (!user) {
+      return res.status(401).json({ message: '잘못된 계정 정보 입니다.' });
+    } else if (!(await bcrypt.compare(password, user.password))) {
+      return res.status(401).json({ message: '비밀번호가 일치하지 않습니다.' });
+    }
 
-  const accessToken = jwt.sign(
-    {
-      userId: user.userId,
-    },
-    process.env.ACCESS_TOKEN_SECRET_KEY,
-    { expiresIn: '1d' },
-  );
+    const accessToken = jwt.sign(
+      {
+        userId: user.userId,
+      },
+      process.env.ACCESS_TOKEN_SECRET_KEY,
+      { expiresIn: '5m' },
+    );
 
-  // 로그인 페이지용
-  res.cookie('accessToken', 'Bearer ' + accessToken);
+    // 로그인 페이지용
+    res.cookie('accessToken', 'Bearer ' + accessToken);
 
-  return res.status(200).json({
-    message: '로그인에 성공하였습니다.',
-    accessToken: accessToken,
-  });
-});
+    return res.status(200).json({
+      message: '로그인에 성공하였습니다.',
+      accessToken: accessToken,
+    });
+  }),
+);
 
 export default router;

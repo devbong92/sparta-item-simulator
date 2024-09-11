@@ -2,16 +2,22 @@ import express from 'express';
 import { prisma } from '../utils/prisma/index.js';
 import authMiddleware from '../middlewares/auth.middleware.js';
 import Utils from '../utils/Utils.js';
+import joi from 'joi';
+import asyncHandler from 'express-async-handler';
 
 const router = express.Router();
 
 /**
  * 캐릭터 생성 API
  */
-router.post('/character', authMiddleware, async (req, res, next) => {
-  /**
-   * #swagger.tags = ['캐릭터 생성 API']
-   * #swagger.description = '캐릭터를 생성한다.'
+router.post(
+  '/character',
+  authMiddleware,
+  asyncHandler(async (req, res, next) => {
+    /**
+   * #swagger.summary = '캐릭터 생성 API'
+   * #swagger.description = '[인증] 신규 캐릭터를 생성한다.'
+   * #swagger.tags = ['Characters: 캐릭터관련'] 
    * #swagger.security = [{
         "Bearer Token": []
     }] 
@@ -27,7 +33,6 @@ router.post('/character', authMiddleware, async (req, res, next) => {
       }
    */
 
-  try {
     const joiSchema = joi.object({
       characterName: joi.string().required().messages({
         'string.base': '캐릭터명은 문자열이어야 합니다.',
@@ -56,24 +61,30 @@ router.post('/character', authMiddleware, async (req, res, next) => {
       },
     });
 
-    return res.status(201).json({ data: character });
-  } catch (err) {
-    next(err);
-  }
-});
+    return res.status(201).json({
+      characterId: character.characterId,
+      data: character,
+    });
+  }),
+);
 
 /**
  * 캐릭터 삭제 API
  */
-router.delete('/character/:characterId', authMiddleware, async (req, res, next) => {
-  /**
-   * #swagger.tags = ['캐릭터 삭제 API']
-   * #swagger.description = '캐릭터를 삭제한다.'
+router.delete(
+  '/character/:characterId',
+  authMiddleware,
+  asyncHandler(async (req, res, next) => {
+    /**
+   * #swagger.summary = '캐릭터 삭제 API'
+   * #swagger.description = '[인증] 특정 캐릭터를 삭제한다.'
+   * #swagger.tags = ['Characters: 캐릭터관련'] 
    * #swagger.security = [{
         "Bearer Token": []
     }] 
+   * 
    */
-  try {
+
     const { user } = req;
     const { characterId } = req.params;
 
@@ -97,33 +108,33 @@ router.delete('/character/:characterId', authMiddleware, async (req, res, next) 
     return res
       .status(200)
       .json({ message: `[${del.characterName}] 캐릭터 삭제가 완료되었습니다.` });
-  } catch (err) {
-    next(err);
-  }
-});
+  }),
+);
 
 /**
  * 캐릭터 상세 조회 API
  */
-router.get('/character/:characterId', async (req, res, next) => {
-  /**
-   * #swagger.tags = ['캐릭터 상세 조회 API']
-   * #swagger.description = '특정 캐릭터를 조회한다.'
+router.get(
+  '/character/:characterId',
+  asyncHandler(async (req, res, next) => {
+    /**
+   * #swagger.summary = '캐릭터 상세 조회 API'
+   * #swagger.description = '[인증] 특정 캐릭터를 조회한다. / [비인증] 게임머니 미출력'
+   * #swagger.tags = ['Characters: 캐릭터관련'] 
    * #swagger.security = [{
         "Bearer Token": []
     }] 
    */
 
-  try {
     const { characterId } = req.params;
     let userId;
 
-    userId = Utils.verify(req.headers.authorization);
-  } catch (err) {
-    userId = null;
-  }
+    try {
+      userId = Utils.verify(req.headers.authorization);
+    } catch (err) {
+      userId = null;
+    }
 
-  try {
     const character = await prisma.characters.findFirst({
       where: {
         characterId: +characterId,
@@ -148,23 +159,26 @@ router.get('/character/:characterId', async (req, res, next) => {
     }
 
     return res.status(200).json({ data: result });
-  } catch (err) {
-    next(err);
-  }
-});
+  }),
+);
 
 /**
  * 캐릭터 목록 조회 API
  */
-router.get('/character', authMiddleware, async (req, res, next) => {
-  /**
-   * #swagger.tags = ['캐릭터 목록 조회 API']
-   * #swagger.description = '유저의 캐릭터 목록을 조회한다.'
+router.get(
+  '/character',
+  authMiddleware,
+  asyncHandler(async (req, res, next) => {
+    /**
+   * #swagger.summary = '캐릭터 목록 조회 API'
+   * #swagger.description = '[인증] 유저의 캐릭터 목록을 조회한다.'
+   * #swagger.tags = ['Characters: 캐릭터관련']
+   * 
    * #swagger.security = [{
         "Bearer Token": []
     }] 
    */
-  try {
+
     const { user } = req;
 
     const characters = await prisma.characters.findMany({
@@ -183,9 +197,7 @@ router.get('/character', authMiddleware, async (req, res, next) => {
     });
 
     return res.status(200).json({ data: characters });
-  } catch (err) {
-    next(err);
-  }
-});
+  }),
+);
 
 export default router;

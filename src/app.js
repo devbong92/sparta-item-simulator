@@ -42,7 +42,7 @@ app.use(express.static('assets'));
 app.use(express.json());
 app.use(cookieParser());
 
-// session
+// session setting
 app.use(
   expressSession({
     secret: process.env.SESSION_SECRET_KEY,
