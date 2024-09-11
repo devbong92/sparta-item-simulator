@@ -11,9 +11,26 @@ const router = express.Router();
 router.get('/index', authPageMiddleware, async (req, res, next) => {
   const { user } = req;
 
+  const characterCount = await prisma.users.findMany({
+    select: {
+      _count: {
+        select: { characters: true },
+      },
+    },
+    where: {
+      userId: user.userId,
+    },
+  });
+
+  console.log('characterCount =>> ', characterCount);
+  console.log('characterCount =>> ', characterCount[0]);
+  console.log('characterCount =>> ');
+
   return res.render('template/view', {
     pageName: `../index`,
     user: user,
+    characterCount: characterCount[0]['_count']['characters'] || 0,
+    itemCount: 0,
   });
 });
 
