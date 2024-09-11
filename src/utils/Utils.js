@@ -15,12 +15,7 @@ export default class Utils {
       const decodedToken = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET_KEY);
       return decodedToken.userId;
     } catch (err) {
-      console.log(`[err] => ${err.name}  `, err);
-      if (err.name === 'JsonWebTokenError') {
-        throw new Error('정상적으로 생성된 토큰이 아닙니다.');
-      } else {
-        throw new Error('정상적인 토큰이 아닙니다.');
-      }
+      throw new Error(err.message);
     }
   }
 }
