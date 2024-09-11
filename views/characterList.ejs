@@ -1,0 +1,86 @@
+<!-- Begin Page Content -->
+<div class="container-fluid">
+
+    <!-- Page Heading -->
+    <h1 class="h3 mb-2 text-gray-800">보유 캐릭터 목록</h1>
+    <p class="mb-4">보유한 캐릭터를 조회할 수 있습니다.</p>
+
+    <!-- DataTales Example -->
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary"> </h6>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>캐릭터 아이디</th>
+                            <th>캐릭터 이름</th>
+                            <th>체력</th>
+                            <th>전투력</th>
+                            <th>금화</th>
+                            <th>인벤토리</th>
+                            <th>장비목록</th>
+                            <th>등록일시</th>
+                            <th>수정일시</th>
+                        </tr>
+                    </thead>
+                    <tfoot>
+                        <tr>
+                            <th>캐릭터 아이디</th>
+                            <th>캐릭터 이름</th>
+                            <th>체력</th>
+                            <th>전투력</th>
+                            <th>금화</th>
+                            <th>인벤토리</th>
+                            <th>장비목록</th>
+                            <th>등록일시</th>
+                            <th>수정일시</th>
+                        </tr>
+                    </tfoot>
+                    <tbody>
+                        <% for(let i=0; i < list.length; i++){ %>
+                            <tr>
+                                <td>
+                                    <%= list[i].characterId %>
+                                </td>
+                                <td>
+                                    <%= list[i].characterName %>
+                                </td>
+                                <td>
+                                    <%= list[i].health %>
+                                </td>
+                                <td>
+                                    <%= list[i].power %>
+                                </td>
+                                <td>
+                                    <%= list[i].money %>
+                                </td>
+                                <td>
+                                    <a href="/inventories?characterId=<%= list[i].characterId %>">
+                                        이동
+                                    </a>
+                                </td>
+                                <td>
+                                    <a href="/equipments?characterId=<%= list[i].characterId %>">
+                                        이동
+                                    </a>
+                                </td>
+                                <td>
+                                    <%= new Date(list[i].createdAt).toISOString() %>
+                                </td>
+                                <td>
+                                    <%= new Date(list[i].updatedAt).toISOString() %>
+                                </td>
+                            </tr>
+                            <% } %>
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div>
+<!-- /.container-fluid -->

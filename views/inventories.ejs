@@ -1,0 +1,71 @@
+<!-- Begin Page Content -->
+<div class="container-fluid">
+
+    <!-- Page Heading -->
+    <h1 class="h3 mb-2 text-gray-800">인벤토리 목록</h1>
+    <p class="mb-4">보유하고 있는 아이템을 조회할 수 있습니다.</p>
+
+    <!-- DataTales Example -->
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary"> </h6>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>아이템 코드</th>
+                            <th>아이템 이름</th>
+                            <th>아이템 옵션</th>
+                            <th>금액</th>
+                            <th>착용여부</th>
+                            <th>등록일시</th>
+                            <th>수정일시</th>
+                        </tr>
+                    </thead>
+                    <tfoot>
+                        <tr>
+                            <th>아이템 코드</th>
+                            <th>아이템 이름</th>
+                            <th>아이템 옵션</th>
+                            <th>금액</th>
+                            <th>착용여부</th>
+                            <th>등록일시</th>
+                            <th>수정일시</th>
+                        </tr>
+                    </tfoot>
+                    <tbody>
+                        <% for(let i=0; i < list.length; i++){ %>
+                            <tr>
+                                <td>
+                                    <%= list[i].item.itemCode %>
+                                </td>
+                                <td>
+                                    <%= list[i].item.itemName %>
+                                </td>
+                                <td>
+                                    <%= JSON.stringify(list[i].item.itemStat) %>
+                                </td>
+                                <td>
+                                    <%= list[i].item.itemPrice %>
+                                </td>
+                                <td>
+                                    <%= list[i].wearYn %>
+                                </td>
+                                <td>
+                                    <%= new Date(list[i].createdAt).toISOString() %>
+                                </td>
+                                <td>
+                                    <%= new Date(list[i].updatedAt).toISOString() %>
+                                </td>
+                            </tr>
+                            <% } %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div>
+<!-- /.container-fluid -->
