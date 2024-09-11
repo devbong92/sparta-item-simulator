@@ -19,7 +19,7 @@ dotenv.config();
 const app = express();
 const PORT = 3020;
 
-// swagger-autogen
+// swagger-ui & swagger-autogen
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerFile));
 
 // MySQLStore를 Express-Session을 이용해 생성합니다.
