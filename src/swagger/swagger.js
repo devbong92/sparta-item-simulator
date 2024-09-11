@@ -93,6 +93,11 @@ const routes = [
 /* NOTE: If you are using the express Router, you must pass in the 'routes' only the 
 root file where the route starts, such as index.js, app.js, routes.js, etc ... */
 
-swaggerAutogen({ openapi: '3.1.0' })(outputFile, routes, doc).then(async () => {
-  await import('../app.js'); // Your project's root file
-});
+swaggerAutogen({ openapi: '3.1.0' })(outputFile, routes, doc);
+/*
+  * swagger 설정 후, 바로 서버 재기동하려면 아래 코드 실행 
+
+    .then(async () => {
+      await import('../app.js'); // Your project's root file
+    });
+*/

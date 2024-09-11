@@ -57,6 +57,7 @@
 ## 트러블 슈팅
 
 - [AWS RDS 비용 관련](https://velog.io/@vamuzz/AWS-RDS-public%EC%97%90%EC%84%9C-private%EC%9C%BC%EB%A1%9C)
+- [express-swagger](https://velog.io/@vamuzz/express-swagger%EC%84%A4%EC%A0%95%ED%95%98%EA%B8%B0)
 
 ---
 
