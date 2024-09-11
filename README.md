@@ -38,7 +38,7 @@
 
 [API 명세서 (Notion) ](https://dev-bong92.notion.site/3758f20ae7f04e3993743a97092442c4?v=13d7c277ee8c4f7c8a534e684a4e161b)
 
-[Swagger-UI](http://vamuzz.shop:3020/swagger)
+[Swagger-UI](http://vamuzz.shop:3020/api-docs)
 
 ## ERD
 
