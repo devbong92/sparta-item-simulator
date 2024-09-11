@@ -57,14 +57,14 @@ router.post(
   authMiddleware,
   asyncHandler(async (req, res, next) => {
     /**
-   * #swagger.summary = '아이템 구입 API'
-   * #swagger.description = '[인증] 아이템을 구입하여 캐릭터 인벤토리에 추가한다'
-   * #swagger.tags = ['Characters Actions: 캐릭터행동관련'] 
-   * 
-   * #swagger.security = [{
-        "Bearer Token": []
-    }] 
-   */
+     * #swagger.summary = '아이템 구입 API'
+     * #swagger.description = '[인증] 아이템을 구입하여 캐릭터 인벤토리에 추가한다'
+     * #swagger.tags = ['Characters Actions: 캐릭터행동관련'] 
+     * 
+     * #swagger.security = [{
+          "Bearer Token": []
+      }] 
+    */
 
     const { user } = req;
     const { itemCode, characterId } = req.params;
@@ -120,14 +120,14 @@ router.post(
   authMiddleware,
   asyncHandler(async (req, res, next) => {
     /**
-   * #swagger.summary = '아이템 판매 API'
-   * #swagger.description = '[인증] 캐릭터 인벤토리의 아이템을 판매한다. (판매대금 60%)'
-   * #swagger.tags = ['Characters Actions: 캐릭터행동관련'] 
-   * 
-   * #swagger.security = [{
-        "Bearer Token": []
-    }] 
-   */
+     * #swagger.summary = '아이템 판매 API'
+     * #swagger.description = '[인증] 캐릭터 인벤토리의 아이템을 판매한다. (판매대금 60%)'
+     * #swagger.tags = ['Characters Actions: 캐릭터행동관련'] 
+     * 
+     * #swagger.security = [{
+          "Bearer Token": []
+      }] 
+    */
 
     const { user } = req;
     const { invenId, characterId } = req.params;
@@ -196,13 +196,13 @@ router.get(
   authMiddleware,
   asyncHandler(async (req, res, next) => {
     /**
-   * #swagger.summary = '인벤토리 목록 조회 API'
-   * #swagger.description = '[인증] 캐릭터 인벤토리 목록을 조회한다'
-   * #swagger.tags = ['Characters Actions: 캐릭터행동관련'] 
-   * #swagger.security = [{
-        "Bearer Token": []
-    }] 
-   */
+     * #swagger.summary = '인벤토리 목록 조회 API'
+     * #swagger.description = '[인증] 캐릭터 인벤토리 목록을 조회한다'
+     * #swagger.tags = ['Characters Actions: 캐릭터행동관련'] 
+     * #swagger.security = [{
+          "Bearer Token": []
+      }] 
+    */
 
     const { user } = req;
     const { characterId } = req.params;
@@ -247,14 +247,14 @@ router.post(
   authMiddleware,
   asyncHandler(async (req, res, next) => {
     /**
-   * #swagger.summary = '아이템 장착 API'
-   * #swagger.description = '[인증] 캐릭터 인벤토리에 있는 아이템을 장착한다'
-   * #swagger.tags = ['Characters Actions: 캐릭터행동관련'] 
-   * 
-   * #swagger.security = [{
-        "Bearer Token": []
-    }] 
-   */
+     * #swagger.summary = '아이템 장착 API'
+     * #swagger.description = '[인증] 캐릭터 인벤토리에 있는 아이템을 장착한다'
+     * #swagger.tags = ['Characters Actions: 캐릭터행동관련'] 
+     * 
+     * #swagger.security = [{
+          "Bearer Token": []
+      }] 
+    */
 
     const { user } = req;
     const { invenId, characterId } = req.params;
@@ -344,14 +344,14 @@ router.post(
   authMiddleware,
   asyncHandler(async (req, res, next) => {
     /**
-   * #swagger.summary = '아이템 탈착 API'
-   * #swagger.description = '[인증] 캐릭터의 장비 아이템을 탈착한다'
-   * #swagger.tags = ['Characters Actions: 캐릭터행동관련'] 
-   * 
-   * #swagger.security = [{
-        "Bearer Token": []
-    }] 
-   */
+     * #swagger.summary = '아이템 탈착 API'
+     * #swagger.description = '[인증] 캐릭터의 장비 아이템을 탈착한다'
+     * #swagger.tags = ['Characters Actions: 캐릭터행동관련'] 
+     * 
+     * #swagger.security = [{
+          "Bearer Token": []
+      }] 
+    */
 
     const { user } = req;
     const { invenId, characterId } = req.params;
@@ -445,14 +445,14 @@ router.get(
   authMiddleware,
   asyncHandler(async (req, res, next) => {
     /**
-   * #swagger.summary = '캐릭터 장비 목록 조회 API'
-   * #swagger.description = '[인증] 캐릭터의 장비 아이템 목록을 조회한다'
-   * #swagger.tags = ['Characters Actions: 캐릭터행동관련'] 
-   * 
-   * #swagger.security = [{
-        "Bearer Token": []
-    }] 
-   */
+     * #swagger.summary = '캐릭터 장비 목록 조회 API'
+     * #swagger.description = '[인증] 캐릭터의 장비 아이템 목록을 조회한다'
+     * #swagger.tags = ['Characters Actions: 캐릭터행동관련'] 
+     * 
+     * #swagger.security = [{
+          "Bearer Token": []
+      }] 
+    */
 
     const { user } = req;
     const { characterId } = req.params;

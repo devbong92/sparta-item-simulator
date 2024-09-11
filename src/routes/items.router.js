@@ -13,13 +13,13 @@ router.get(
   '/items',
   asyncHandler(async (req, res, next) => {
     /**
-   * #swagger.summary = '아이템 목록 조회 API'
-   * #swagger.description = '모든 아이템을 조회한다.'
-   * #swagger.tags = ['Items: 아이템관련'] 
-   * #swagger.responses[200] = {
+     * #swagger.summary = '아이템 목록 조회 API'
+     * #swagger.description = '모든 아이템을 조회한다.'
+     * #swagger.tags = ['Items: 아이템관련'] 
+     * #swagger.responses[200] = {
           schema: {$ref: "#/components/schemas/getItems"}  
       }  
-   */
+     */
 
     const items = await prisma.items.findMany({
       select: {
@@ -45,13 +45,13 @@ router.get(
   '/items/:itemCode',
   asyncHandler(async (req, res, next) => {
     /**
-   * #swagger.summary = '아이템 상세 조회 API'
-   * #swagger.description = '특정 아이템을 조회한다.'
-   * #swagger.tags = ['Items: 아이템관련'] 
-   * #swagger.responses[200] = {
+     * #swagger.summary = '아이템 상세 조회 API'
+     * #swagger.description = '특정 아이템을 조회한다.'
+     * #swagger.tags = ['Items: 아이템관련'] 
+     * #swagger.responses[200] = {
           schema: {$ref: "#/components/schemas/getItem"}  
       }
-   */
+     */
     try {
       const { itemCode } = req.params;
 
@@ -141,20 +141,20 @@ router.patch(
   '/items/:itemCode',
   asyncHandler(async (req, res, next) => {
     /**
-   * #swagger.summary = '아이템 수정 API'
-   * #swagger.description = '특정 아이템을 수정한다.'
-   * #swagger.tags = ['Items: 아이템관련'] 
-   * #swagger.requestBody = {
-        required: true,
-        content: {
-            "application/json": {
-                schema: {
-                    $ref: "#/components/schemas/editItem"
-                }  
-            }
+     * #swagger.summary = '아이템 수정 API'
+     * #swagger.description = '특정 아이템을 수정한다.'
+     * #swagger.tags = ['Items: 아이템관련'] 
+     * #swagger.requestBody = {
+          required: true,
+          content: {
+              "application/json": {
+                  schema: {
+                      $ref: "#/components/schemas/editItem"
+                  }  
+              }
+          }
         }
-      }
-   */
+    */
 
     const joiSchema = joi.object({
       itemName: joi.string().required().messages({

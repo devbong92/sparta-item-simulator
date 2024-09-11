@@ -90,10 +90,10 @@ router.post(
   '/sign-in',
   asyncHandler(async (req, res, next) => {
     /**
-   * #swagger.summary = '로그인 API'
-   * #swagger.description = '유저 정보를 확인한다.'
-   * #swagger.tags = ['Users: 회원관련'] 
-   * #swagger.requestBody = {
+     * #swagger.summary = '로그인 API'
+     * #swagger.description = '유저 정보를 확인한다.'
+     * #swagger.tags = ['Users: 회원관련'] 
+     * #swagger.requestBody = {
         required: true,
         content: {
             "application/json": {
