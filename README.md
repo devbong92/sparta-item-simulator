@@ -1,4 +1,4 @@
-![image](https://github.com/user-attachments/assets/674b668b-2482-4056-b59a-a3e0159c81cc)# Chapter 3, 개인과제 : 아이템 시뮬레이터
+# Chapter 3, 개인과제 : 아이템 시뮬레이터
 
 ## 사용법
 
