@@ -1,4 +1,4 @@
-# Chapter 3, 개인과제 : 아이템 시뮬레이터
+![image](https://github.com/user-attachments/assets/674b668b-2482-4056-b59a-a3e0159c81cc)# Chapter 3, 개인과제 : 아이템 시뮬레이터
 
 ## 사용법
 
@@ -10,6 +10,35 @@
 - 실행 : yarn run start
 - Swagger : yarn run swagger
 - Site : ${domain}/
+
+## 구조 
+```
+📁 ROOT
+├── README.md
+├── package.json
+├── 📁 prisma
+│   └── schema.prisma
+├── 📁 src
+│   ├── app.js
+│   ├── 📁 middlewares
+│   │   ├── auth.middleware.js
+│   │   ├── authPage.middleware.js
+│   │   └── error-handling.middleware.js
+│   ├── 📁 routes
+│   │   ├── character.router.js
+│   │   ├── characterActions.router.js
+│   │   ├── items.router.js
+│   │   ├── pages.router.js
+│   │   └── users.router.js
+│   ├── 📁 swagger
+│   │   ├── swagger-output.json
+│   │   └── swagger.js
+│   └── 📁 utils
+│       ├── Utils.js
+│       └── 📁 prisma
+│           └── index.js
+└── yarn.lock
+```
 
 ## 필수 기능
 
