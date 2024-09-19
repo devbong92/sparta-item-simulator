@@ -13,6 +13,8 @@ import authPageMiddleware from './middlewares/authPage.middleware.js';
 import cookieParser from 'cookie-parser';
 import pagesRouter from './routes/pages.router.js';
 
+// Git Actions Test #1
+
 // .env => process.env
 dotenv.config();
 
